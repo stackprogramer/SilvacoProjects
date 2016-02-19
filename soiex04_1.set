@@ -1,0 +1,49 @@
+# TPCS version: 6
+# key positions
+key contours 1 at 3
+key contours 2 at 1
+key contours 3 at 6
+key electrical at 4
+key vectors at 6
+key overlay at user 0.072089, 0.062761
+key regions at 4
+# various properties
+log label 0
+select 1
+# xygraph flags
+show points on
+show lines on
+# xygraph types
+xygraph type 0 convert 0
+xygraph yaxis scale linear
+# xygraph x-axis
+xygraph xaxis "drain bias" linear
+# xygraph y-axes
+xygraph yaxis none
+xygraph yaxis "drain current" linear
+# xygraph group
+xygraph group "None"
+# annotation, titles
+title main auto
+title sub auto
+# annotation, footers
+footer right none
+footer left none
+# annotation, show
+show xaxis on
+show yaxis on
+show grid off
+show label xaxis on
+show label yaxis on
+# annotation, axes
+range xaxis auto
+range yaxis auto
+label xaxis "drain bias (V)"
+# zoom
+zoom from 0, 0 scale 1, 1
+# user labels
+# overlay level names
+label overlay 0 "soiex04_1.log"
+label overlay 1 "soiex04_2.log"
+label overlay 2 "soiex04_3.log"
+draw all

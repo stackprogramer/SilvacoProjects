@@ -1,0 +1,48 @@
+# TPCS version: 6
+# key positions
+key contours 1 at 3
+key contours 2 at 1
+key contours 3 at 6
+key electrical at user 0.012939, 0.0564854
+key vectors at 6
+key overlay at 0
+key regions at 4
+select 1
+# xygraph flags
+show points on
+show lines on
+# xygraph types
+xygraph type 0 convert 0
+xygraph yaxis scale linear
+# xygraph x-axis
+xygraph xaxis "drain bias" linear
+# xygraph y-axes
+xygraph yaxis none
+xygraph yaxis "drain current" linear
+# annotation, titles
+title main auto
+title sub auto
+# annotation, footers
+footer right none
+footer left none
+# annotation, show
+show xaxis on
+show yaxis on
+show grid off
+show label xaxis on
+show label yaxis on
+# annotation, axes
+range xaxis auto
+range yaxis auto
+label xaxis "drain bias (V)"
+# zoom
+zoom from 0, 0 scale 1, 1
+# user labels
+label "EB" from 2.69188, 0.000918307 color 0 scale 2
+label 0 at 5 0
+label "NEB" from 3.84164, 0.000658062 color 0 scale 2
+label 1 at 5 0
+# overlay level names
+label overlay 0 "soiex04_eb.log"
+label overlay 1 "soiex04_neb.log"
+draw all
