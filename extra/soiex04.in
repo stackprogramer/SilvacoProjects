@@ -6,40 +6,44 @@ TITLE SOI device simulation
 #
 mesh   space.mult=1.0
 # 
-x.mesh loc=0.00 spac=0.50
+x.mesh loc=0.00 spac=0.1
 x.mesh loc=1.15 spac=0.02
-x.mesh loc=1.5  spac=0.1
+x.mesh loc=1.5  spac=0.05
 x.mesh loc=1.85 spac=0.01
-x.mesh loc=3    spac=0.5
+x.mesh loc=2.3 spac=0.05
+x.mesh loc=2.3 spac=0.01
+x.mesh loc=3    spac=0.05
 #
-y.mesh loc=-0.017 spac=0.02
-y.mesh loc=0.00   spac=0.005
-y.mesh loc=0.15   spac=0.01
-y.mesh loc=0.3    spac=0.01
-y.mesh loc=0.6    spac=0.01
-y.mesh loc=1    spac=0.01
-y.mesh loc=1.3   spac=0.25
-y.mesh loc=1.6    spac=0.01
+y.mesh loc=-0.017 spac=0.001
+y.mesh loc=0.00   spac=0.001
+y.mesh loc=0.15   spac=0.02
+y.mesh loc=0.2    spac=0.01
+y.mesh loc=0.6    spac=0.02
+y.mesh loc=1    spac=0.25
+y.mesh loc=1.4    spac=0.25
+y.mesh loc=1.6    spac=0.25
 
 
 
 #
-region      num=1 y.max=.2 silicon 
-region      num=2 y.min=.2 y.max=0.6 oxide
+region      num=1 y.min=0   y.max=.2 silicon
+region      num=2 y.min=.2 y.max=0.6  oxide
 region      num=3 y.min=0.6  silicon
 #
 #*********** define the electrodes ************
 # #1-GATE #2-SOURCE #3-DRAIN #4-SUBSTRATE(below oxide)
 #
-electrode   name=gate    x.min=1 x.max=2 y.min=-0.017 y.max=-0.017
-electrode   name=source x.max=0.5 y.min=0 y.max=0
-electrode   name=drain  x.min=2.5 y.min=0 y.max=0
+electrode   name=gate    x.min=1 x.max=2 y.min=-0.007 y.max=0.01
+electrode   name=source x.max=0.4 y.min=0 y.max=0
+electrode   name=drain  x.min=2.6 y.min=0 y.max=0
 electrode   substrate
 #
 #*********** define the doping concentrations *****
 #
-doping       uniform conc=1e20 p.type  reg=1
-doping       gauss n.type conc=1e17 char=0.2 lat.char=0.05 reg=3 save         outf=soiex04_0.str
+doping       uniform conc=1e17 p.type  reg=3
+doping       uniform conc=1e20 n.type  reg=1
+
+save         outf=soiex04_0.str
 tonyplot     soiex04_0.str -set soiex04_0.set
 #
 # set interface charge separately on front and back oxide interfaces
@@ -47,7 +51,7 @@ interf       qf=3e10 y.max=0.1
 interf       qf=1e11 y.min=0.1
 #
 # set workfunction of gate
-contact      name=gate n.poly
+contact      name=gate p.poly
 #
 # select models
 models       cvt srh bgn print 
@@ -57,21 +61,22 @@ solve        init
 #
 # do IDVG characteristic
 #
-method      newton trap maxtrap=10 
+method      GUMMEL NEWTON trap maxtrap=12
 solve       prev  
 solve       vdrain=0.05
-solve       vdrain=0.1
+solve       vdrain=0.2
 #
 # ramp gate voltage to 1, 2 and 3V
-solve       vgate=0.2 vstep=0.2 name=gate vfinal=1
+solve       vgate=0.2 vstep=0.005name=gate vfinal=1
 save        outf=soiex04_1.str
-solve       vgate=0.2 vstep=0.2 name=gate vfinal=2
+solve       vgate=0.2 vstep=0.005name=gate vfinal=2
 save        outf=soiex04_2.str
-solve       vgate=0.2 vstep=0.2 name=gate vfinal=3
+solve       vgate=0.2 vstep=0.005name=gate vfinal=3
 save        outf=soiex04_3.str
 #
 # Now do ID/VDS characteristic
-load       infile=soiex04_1.str master
+
+#load  infile=soiex04_1.str master
 solve      prev
 log        outf=soiex04_1.log
 solve      vfinal=3.3 vstep=0.1 name=drain

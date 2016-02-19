@@ -43,8 +43,8 @@ doping       gauss n.type conc=1e17 char=0.2 lat.char=0.05 reg=3 save         ou
 tonyplot     soiex04_0.str -set soiex04_0.set
 #
 # set interface charge separately on front and back oxide interfaces
-interf       qf=3e10 y.max=0.1
-interf       qf=1e11 y.min=0.1
+interf       qf=3e10 y.max=0.2
+interf       qf=1e11 y.min=0.2
 #
 # set workfunction of gate
 contact      name=gate n.poly
@@ -69,6 +69,18 @@ solve       vgate=0.2 vstep=0.2 name=gate vfinal=2
 save        outf=soiex04_2.str
 solve       vgate=0.2 vstep=0.2 name=gate vfinal=3
 save        outf=soiex04_3.str
+
+####################
+method      newton trap maxtrap=10 
+solve       prev  
+solve       vdrain=0.1
+
+#load       infile=soiex04_1.str master
+solve      prev
+log        outf=gate.log
+solve       vgate=0  vfinal=2 vstep=0.1 name=gate
+tonyplot -overlay   gate.log 
+######################33
 #
 # Now do ID/VDS characteristic
 load       infile=soiex04_1.str master
@@ -88,5 +100,5 @@ solve      prev
 log        outf=soiex04_3.log
 solve      vfinal=3.3 vstep=0.1 name=drain
 #
-tonyplot -overlay soiex04_1.log soiex04_2.log soiex04_3.log -set soiex04_1.set
+tonyplot -overlay    soiex04_1.log soiex04_2.log soiex04_3.log -set soiex04_1.set
 quit
